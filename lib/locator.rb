@@ -1,0 +1,3 @@
+class Locator
+
+end
