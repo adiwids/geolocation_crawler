@@ -9,14 +9,14 @@ RSpec.describe Node do
     subject.longitude = 0.0
     subject.latitude = 0.0
   end
-  
+
   it "should create new instance" do
     expect(subject).to be_instance_of(Node)
   end
 
   context "when label attribute is set as object parameter" do
     before do
-      @node = Node.new("Jalan Cassa, Sukajadi, Kota Bandung, Jawa Barat 40164, Republic of Indonesia")      
+      @node = Node.new("Jalan Cassa, Sukajadi, Kota Bandung, Jawa Barat 40164, Republic of Indonesia")
     end
 
     it "should create new instance with label" do
@@ -26,7 +26,7 @@ RSpec.describe Node do
 
     it "should set longitude and latitude value via Geokit::Geocoders::GoogleGeocoder" do
       expected = Geokit::Geocoders::GoogleGeocoder.geocode(@node.label)
-      
+
       expect(@node.latitude).to eq(expected.lat)
       expect(@node.longitude).to eq(expected.lng)
     end
@@ -64,6 +64,24 @@ RSpec.describe Node do
     end
   end
 
+  describe ".find" do
+    before do
+      @label = "Sample Node"
+      @node = double('Node')
+      @node.stub(:id).with(1)
+      Node.stub(:find).with(1).and_return(@node)
+    end
+
+    it "should respond with label text parameter" do
+      allow(Node).to receive(:find).with(1)
+      Node.find_by_label(1)
+    end
+
+    it "should return one object as result" do
+      expect( Node.find(1) ).to eql(@node)
+    end
+  end
+
   describe ".find_by_label" do
     before do
       @label = "Sample Node"
@@ -71,7 +89,7 @@ RSpec.describe Node do
       @node.stub(:label).with(@label)
       Node.stub(:find_by_label).with(@label).and_return(@node)
     end
-    
+
     it "should respond with label text parameter" do
       allow(Node).to receive(:find_by_label).with(@label)
       Node.find_by_label(@label)

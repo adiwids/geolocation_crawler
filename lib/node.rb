@@ -17,7 +17,7 @@ keys = YAML.load_file("#{File.dirname(__FILE__)}/api_key.yml")
 ##
 
 class Node
-  attr_accessor :longitude, :latitude, :label
+  attr_accessor :longitude, :latitude, :label, :id
 
   def initialize label=nil
     unless label.nil?
@@ -41,8 +41,60 @@ class Node
     (!@label.nil? && @label != "") && ensure_longitude_valid && ensure_latitude_valid
   end
 
+  def self.find(id)
+    sql = "SELECT nodes.id, nodes.label, nodes.longitude, nodes.latitude
+           FROM nodes
+           WHERE nodes.id = '#{id}'
+           LIMIT 0, 1"
+
+    begin
+      db = SQLite3::Database.open "data.db"
+      statement = db.prepare sql
+      rows = statement.execute
+
+      node = self.new
+      rows.each do |r|
+        node.id = r[0]
+        node.label = r[1]
+        node.longitude = r[2]
+        node.latitude = r[3]
+      end
+
+      return node
+
+    rescue Exception => e
+      puts "[ERROR] Connect database failed."
+    ensure
+      db.close if db
+    end
+  end
+
   def self.find_by_label(label)
-    return self
+    sql = "SELECT nodes.id, nodes.label, nodes.longitude, nodes.latitude
+           FROM nodes
+           WHERE nodes.label = '#{label}'
+           LIMIT 0, 1"
+
+    begin
+      db = SQLite3::Database.open "data.db"
+      statement = db.prepare sql
+      rows = statement.execute
+
+      node = self.new
+      rows.each do |r|
+        node.id = r[0]
+        node.label = r[1]
+        node.longitude = r[2]
+        node.latitude = r[3]
+      end
+
+      return node
+
+    rescue Exception => e
+      puts "[ERROR] Connect database failed."
+    ensure
+      db.close if db
+    end
   end
 
   def self.search keyword
@@ -57,7 +109,7 @@ class Node
     def ensure_longitude_valid
       @longitude > -180.0 && @longitude < 180.0
     end
-    
+
     def ensure_latitude_valid
       @latitude > -90.0 && @latitude < 90.0
     end
