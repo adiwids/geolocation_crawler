@@ -1,3 +1,4 @@
+require 'sqlite3'
 require 'openssl'
 require 'geokit'
 require 'yaml'
@@ -17,13 +18,14 @@ keys = YAML.load_file("#{File.dirname(__FILE__)}/api_key.yml")
 ##
 
 class Node
+  DATABASE_PATH = "#{File.dirname(__FILE__)}/data.db"
+
   attr_accessor :longitude, :latitude, :label, :id
 
   def initialize label=nil
     unless label.nil?
       @label = label
       begin
-        puts "[DEBUG] label: #{@label}"
         geocode = Geokit::Geocoders::GoogleGeocoder.geocode(@label)
         @longitude = geocode.lng
         @latitude = geocode.lat
@@ -45,10 +47,10 @@ class Node
     sql = "SELECT nodes.id, nodes.label, nodes.longitude, nodes.latitude
            FROM nodes
            WHERE nodes.id = '#{id}'
-           LIMIT 0, 1"
+           LIMIT 0, 1;"
 
     begin
-      db = SQLite3::Database.open "data.db"
+      db = SQLite3::Database.open DATABASE_PATH
       statement = db.prepare sql
       rows = statement.execute
 
@@ -64,6 +66,7 @@ class Node
 
     rescue Exception => e
       puts "[ERROR] Connect database failed."
+      puts e
     ensure
       db.close if db
     end
@@ -73,10 +76,10 @@ class Node
     sql = "SELECT nodes.id, nodes.label, nodes.longitude, nodes.latitude
            FROM nodes
            WHERE nodes.label = '#{label}'
-           LIMIT 0, 1"
+           LIMIT 0, 1;"
 
     begin
-      db = SQLite3::Database.open "data.db"
+      db = SQLite3::Database.open DATABASE_PATH
       statement = db.prepare sql
       rows = statement.execute
 
@@ -92,17 +95,71 @@ class Node
 
     rescue Exception => e
       puts "[ERROR] Connect database failed."
-    ensure
-      db.close if db
     end
   end
 
   def self.search keyword
-    return []
+    sql = "SELECT nodes.* FROM nodes WHERE LOWER(nodes.label) LIKE '%#{keyword.downcase}%';"
+    begin
+      db = SQLite3::Database.open DATABASE_PATH
+      statement = db.prepare sql
+      rows = statement.execute
+
+      nodes = []
+      rows.each do |r|
+        node = self.new
+
+        node.id = r[0]
+        node.label = r[1]
+        node.longitude = r[2]
+        node.latitude = r[3]
+
+        nodes << node
+      end
+
+      return nodes
+
+    rescue Exception => e
+      puts "[ERROR] Connect database failed."
+    end
   end
 
-  def save
-    return false
+  def save node=nil
+    exists = Node.search_location @longitude, @latitude
+
+    is_saved = false
+
+    if exists
+      is_saved = update(node)
+    else
+      is_saved = create(node)
+    end
+
+    return is_saved
+  end
+
+  def self.search_location lng, lat
+    sql = "SELECT nodes.id, nodes.label, nodes.longitude, nodes.latitude
+           FROM nodes
+           WHERE nodes.longitude=#{lng} AND nodes.latitude=#{lat} LIMIT 0,1;"
+    begin
+      db = SQLite3::Database.open DATABASE_PATH
+      statement = db.prepare sql
+      rows = statement.execute
+
+      node = self.new
+      rows.each do |r|
+        node.id = r[0]
+        node.label = r[1]
+        node.longitude = r[2]
+        node.latitude = r[3]
+      end
+
+      return node
+
+    rescue Exception => e
+      puts "[ERROR] Connect database failed."
+    end
   end
 
   private
@@ -112,5 +169,63 @@ class Node
 
     def ensure_latitude_valid
       @latitude > -90.0 && @latitude < 90.0
+    end
+
+    def create node=self
+      sql = "INSERT INTO nodes(id, label, longitude, latitude)
+             VALUES(#{generate_id}, '#{node.label}', #{node.longitude}, #{node.latitude})"
+      begin
+        db = SQLite3::Database.open DATABASE_PATH
+        statement = db.prepare sql
+
+        if statement.execute
+          return true
+        else
+          return false
+        end
+
+      rescue Exception => e
+        puts "[ERROR] Connect database failed."
+      end
+    end
+
+    def update node=self
+      sql = "UPDATE nodes SET
+                nodes.label='#{node.label}',
+                nodes.longitude=#{node.longitude},
+                nodes.latitude=#{node.latitude}
+              WHERE nodes.id=#{node.id};"
+      begin
+        db = SQLite3::Database.open DATABASE_PATH
+        statement = db.prepare sql
+
+        if statement.execute
+          return true
+        else
+          return false
+        end
+
+      rescue Exception => e
+        puts "[ERROR] Connect database failed."
+      end
+    end
+
+    def generate_id
+      sql = "SELECT nodes.id FROM nodes ORDER BY nodes.id DESC;"
+      begin
+        db = SQLite3::Database.open DATABASE_PATH
+        statement = db.prepare sql
+        rows = statement.execute
+
+        node = self.new
+        rows.each do |r|
+          node.id = r[0]
+        end
+
+        return node.id
+
+      rescue Exception => e
+        puts "[ERROR] Connect database failed."
+      end
     end
 end

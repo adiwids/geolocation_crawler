@@ -24,7 +24,7 @@ RSpec.describe Node do
       expect(@node.label).to eql("Jalan Cassa, Sukajadi, Kota Bandung, Jawa Barat 40164, Republic of Indonesia")
     end
 
-    it "should set longitude and latitude value via Geokit::Geocoders::GoogleGeocoder" do
+    xit "should set longitude and latitude value via Geokit::Geocoders::GoogleGeocoder" do
       expected = Geokit::Geocoders::GoogleGeocoder.geocode(@node.label)
 
       expect(@node.latitude).to eq(expected.lat)
@@ -144,7 +144,7 @@ RSpec.describe Node do
         # Update Node.label from "Sample Node" to "Change Label to This"
         subject.label = "Change Label to This"
         expect(subject.save).to eql(true)
-	#
+	      #
         node = Node.find_by_label("Change Label to This")
         #
         # Node.label should not be similar as before
