@@ -1,4 +1,34 @@
 # Class dependencies
 require './lib/node'
 
-puts Node.new("Jalan Cassa, Sukajadi, Kota Bandung, Jawa Barat 40164, Republic of Indonesia").longitude
+[
+  "Terminal Kebon Kelapa;Jl. Pungkur;Jl. Karapitan;Jl. Buah Batu;Jl. Banteng;Jl. Sancang;Jl. Lodaya;Jl. Martanegara;Jl. Turangga;Jl. Gatot Subroto;Trans Studio Mall;Binong;Jl. Kiara Condong;Jl. Jakarta;Jl. Supratman;Jl. Katamso;Jl. Pahlawan;Jl. Cikutra;Jl. PHH. Mustofa;Terminal Cicaheum",
+  "Terminal Cicaheum;Jl. PHH. Mustofa;Jl. Cikutra;Jl. Katamso;Jl. Supratman;Jl. Ahmad Yani;Jl. Jakarta;Jl. Kiara Condong;Binong;Trans Studio Mall;Jl. Turangga;Jl. Martanegara;Jl. Lodaya;Jl. Gajah;Jl. Buah Batu;Jl. Gurame;Jl. Moh. Ramdan;Jl. BKR;Jl. Moh. Toha;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Dewi Sartika;Jl. Kautamaan Istri;Jl. Balong Gede;Jl. Pungkur;Jl. Karapitan;Jl. Sunda;Jl. Lombok;Jl. Aceh;Jl. Taman Pramuka;Jl. Cendana;Jl. Supratman;Jl. Katamso;Jl. Pahlawan;Jl. Cikutra;Jl. PHH. Mustofa;Terminal Cicaheum",
+  "Terminal Cicaheum;Jl. PHH. Mustofa (Suci);Jl. Cikutra;Jl. Katamso;Taman WR. Supratman;Jl. Cendana;Jl. Taman Pramuka;Jl. Aceh;Jl. Lombok;Jl. Belitung;Jl. Sumatera;Jl. Tamblong;Jl. Lengkong Besar;Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Dewi Sartika;Jl. Kautamaan Istri;Jl. Balong Gede;Jl. Pungkur;Jl. Karapitan;Jl. Sunda;Jl. Sumbawa;Jl. Belitung;Jl. Sumatera;Jl. Aceh;Jl. Sulawesi;Jl. Seram;Jl. RE Martadinata (Riau);Jl. Ir. H. Juanda (Dago);RS. Boromeus (Dago);ITB (Jl. Ganesha, Dago);Simpang Dago;Terminal Dago",
+  "Terminal Dago;Jl. H. Juanda (Dago);Simpang Dago;ITB (Jl. Ganesha, Dago);RS. Boromeus (Dago);Jl. Sultan Agung;Jl. Trunojoyo;Jl. RE. Martadinata;BIP (Jl. Merdeka Dago);Jl. Aceh;Jl. Kalimantan;Jl. Belitung;Jl. Sumatera;Jl. Tamblong;Jl. Lengkong Besar;Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Pungkur;Jl. Otto Iskandardinata (Otista);Jl. Ciateul;Jl. Astana Anyar;Jl. Panjunan;Jl. Kopo;Jl. Pasir Koja;Jl. Astana Anyar;Jl. Pagarsih;Jl. Nawawi;Jl. Aksan;Jl. Suryani;Jl. Holis;Jl. Bojong Raya;Jl. Cijerah;Jl. Sudirman;Jl. Rajawali Barat;Jl. Elang;Terminal Elang",
+  "Terminal Elang;Jl. Sukarno-Hatta;Jl. Holis;Jl. Nana Rohana;Jl. Suryani;Jl. Situ Aksan;Jl. Pagarsih;Jl. Kalipah Apo;Jl. Otto Iskandardinata (Otista);Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Dewi Sartika;Jl. Kautamaan Istri;Jl. Balong Gede;Jl. Pungkur;Jl. Karapitan;Jl. Sunda;Jl. Sumbawa;Jl. Lombok;Jl. Banda;Jl. RE Martadinata (Riau);BIP (Dago);Jl. Merdeka;Jl. Aceh;Jl. Wastu Kencana;Jl. Rivai;Jl. Cipaganti;Jl. Setiabudi;Jl. Karang Sari;Jl. Sukajadi;Jl. Setiabudi;Terminal Ledeng",
+  "Terminal Ledeng;Jl. Setiabudi;Jl. Cihampelas;Jl. Wastu Kencana;Jl. RE. Martadinata;Jl. Purnawarman;BEC (Purnawarman);Jl. Wastu Kencana;Jl. Aceh;Jl. Kalimantan;Jl. Belitung;Jl. Sumatera;Jl. Tamblong;Jl. Lengkong Besar;Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Antapani;Jl. Cibatu (Antapani);Jl. Purwakarta (Antapani);Jl. Jakarta;Jl. Sukabumi;Jl. Laswi;Stadion Persib (Ahmad Yani);Jl. Ahmad Yani;Jl. Gudang Utara;Jl. Bangka;Jl. Belitung;Jl. Sumatera;Jl. Aceh;Jl. Merdeka;Jl. Perintis Kemerdekaan;Wastu Kencana;Jl. Pajajaran;Jl. Cicendo;Jl. Kebon Kawung;Stasiun Bandung (Kebon Kawung);Jl. Pasir Kaliki;Istana Plaza (Pajajaran);Jl. Pajajaran;Jl. Abdul Rahman Saleh;Jl. Garuda;Jl. Ciroyom;Terminal Ciroyom",
+  "Terminal Ciroyom;Jl. Ciroyom;Jl. Arjuna;Jl. Pajajaran;Istana Plaza (Pajajaran);Jl. Cihampelas;Jl. Wastu Kencana;Jl. RE. Martadinata;Jl. Purnawarman;BEC (Purnawarman);Jl. Wastu Kencana;Jl. Aceh;Jl. Kalimantan;Jl. Belitung;Jl. Bangka;Jl. Gudang Utara;Jl. Ahmad Yani;Stadion Persib (Ahmad Yani);Cicadas (Ahmad Yani);Jl. Kiara Condong;Jl. Jakarta (Antapani);Jl. Subang (Antapani);Jl. Cibatu (Antapani);Terminal Antapani",
+  "Terminal Buah Batu;Jl. Buah Batu;Jl. Gurame;Jl. Karapitan;Jl. Lengkong Kecil;Jl. Lengkong Besar;Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Dewi Sartika;Jl. Banceuy;Jl. Suniaraja;Jl. Otista;Jl. Stasiun Timur;Jl. Kebon Jukut;Jl. Kebon Kawung (Stasiun Bandung);Jl. Pasir Kaliki;Jl. Pajajaran;Jl. Cihampelas;Jl. Rivai;Jl. Rum;Jl. Gunawan;Jl. Otten;Jl. Pasteur;Jl. Pasir Kaliki (RS. Hasan Sadikin);Jl. Sederhana;Terminal Sederhana",
+  "Terminal Sederhana;Jl. Jurang;Jl. Cemara;Jl. Sukajadi;Jl. Pasir Kaliki (RS. Hasan Sadikin);Jl. Pasteur;Jl. Cihampelas;Jl. Wastu Kencana;Jl. Pajajaran;Jl. Cicendo;Jl. Kebon Jukut;Viaduct;Jl. Braga;Jl. Lembong;Jl. Tamblong;Jl. Lengkong Besar;Jl. Ciateul;Jl. Dewi Sartika;Terminal Kebon Kelapa",
+  "Terminal Kebon Kelapa;Jl. Dalem Kaum;Jl. Lengkong Besar;Jl. Cikawao;Jl. Buah Batu;Jl. Banteng;Jl. Gajah;Jl. Buah Batu;Terminal Buah Batu",
+  "Bumi Asri;Jl. Cijerah;Jl. Bojong Raya;Jl. Holis;Jl. Sukarno-Hatta;Jl. Sudirman;Jl. Rajawali Barat;Jl. Rajawali Timur;Jl. Kebon Jati;Jl. Stasiun Timur;Viaduct;Jl. Wastu Kencana;Jl. Rivai;Jl. Cipto;Jl. Pasir Kaliki;Istana Plaza (Pasir Kaliki);Jl. Pajajaran;Jl. Arjuna;Jl. Supadio;Jl. Ciroyom;Terminal Ciroyom",
+  "Terminal Ciroyom;Jl. Ciroyom;Jl. Garuda;Jl. Sudirman;Jl. Sukarno-Hatta;Jl. Holis;Jl. Bojong Raya;Jl. Cijerah;Bumi Asri",
+  "Pasar Induk Caringin;Jl. Babakan Ciparay;Jl. Sukarno-Hatta;Jl. Sukamulya;Jl. Terusan Jamika;Jl. Jamika;Jl. Sudirman;Jl. Guanan;Jl. Kebon Jati;Jl. Pasir Kaliki;Jl. Pajajaran;Jl. Cihampelas;Jl. Wastu Kencana;Jl. RE. Martadinata;Jl. Purnawarman;UNISBA & UNPAS (Tamansari);Jl. Tamansari;Jl. Cikapayang;Jl. Surapati (Suci);Jl. Pahlawan;Jl. Cikutra Barat;Jl. Cigadung Raya;Terminal Dago",
+  "Terminal Dago;Jl. Cigadung Raya;Jl. Cikutra Barat;Jl. Pahlawan;Jl. Surapati (Suci);Jl. Cikapayang;Jl. Tamansari;Jl. Sawunggaling;Jl. Rangga Gading;UNISBA & UNPAS (Tamansari);Jl. Tamansari;Jl. Wastu Kencana;Jl. Purnawarman;Jl. Pajajaran;Jl. Cicendo;Jl. Rivai;Jl. Pasir Kaliki;Jl. Pajajaran;Jl. Arjuna;Jl. Supadio;Jl. Ciroyom;Jl. Rajawali Timur;Jl. Kebon Jati;Jl. Waringin;Jl. Sudirman;Jl. Jamika;Jl. Terusan Jamika;Jl. Sukamulya;Jl. Sukarno-Hatta;Jl. Babakan Ciparay;Pasar Induk Caringin (Sukarno-Hatta)",
+  "Terminal Caringin;Jl. Caringin;Jl. Holis;Jl. Bojong Raya;Jl. Cijerah;Jl. Sudirman;Jl. Rajawali Barat;Jl. Garuda;Jl Abdul Rahman Saleh;Jl. Pajajaran;Jl. Pandu;Jl. Rajiman;Jl. Rivai;Jl. Wastu Kencana;Jl. Tamansari;Jl. Ganesha;Jl. Ir. H. Juanda (Dago);Jl. TB. Ismail;Jl. Sadang Serang;Terminal Sadang Serang",
+  "Terminal Sadang Serang;Jl. Serang Serang;Jl. Tubagus Ismail;Simpang Dago;Jl. Tamansari;Jl. Sawunggaling;Jl. Tamansari;Jl. Wastu Kencana;Jl. RE. Martadinata;Jl. Purnawarman;Jl. Wastu Kencana;Jl. Pajajaran;Jl. Cicendo;Jl. Kebon Kawung;Stasiun Bandung (Kebon Kawung);Jl. Pasir Kaliki;Jl. Kresna;Jl. Bima;Jl. Pajajaran;Jl. Abdul Rahman Saleh;Jl. Garuda;Jl. Sudirman;Jl. Cijerah;Jl. Bojong Raya;Jl. Holis;Jl. Caringin;Terminal Caringin"
+].map do |route|
+    nodes = route.split(";")
+    nodes.each do |node|
+      n = "#{node.strip.gsub('Jl.', 'Jalan')}, Bandung City, West Java, Indonesia"
+      puts n
+      r = Node.fetch_geocoder_result(n, true)
+    end
+  end

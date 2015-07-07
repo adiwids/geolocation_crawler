@@ -2,6 +2,8 @@ require 'sqlite3'
 require 'openssl'
 require 'geokit'
 require 'yaml'
+require 'net/http'
+require 'uri'
 
 keys = YAML.load_file("#{File.dirname(__FILE__)}/api_key.yml")
 ##
@@ -20,7 +22,7 @@ keys = YAML.load_file("#{File.dirname(__FILE__)}/api_key.yml")
 class Node
   DATABASE_PATH = "#{File.dirname(__FILE__)}/data.db"
 
-  attr_accessor :longitude, :latitude, :label, :id
+  attr_accessor :longitude, :latitude, :label, :id, :file_store
 
   def initialize label=nil
     unless label.nil?
@@ -159,6 +161,45 @@ class Node
 
     rescue Exception => e
       puts "[ERROR] Connect database failed."
+    end
+  end
+
+  def self.fetch_geocoder_result formatted_address, save_to_file=false
+    map_api_path = "http://maps.googleapis.com/maps/api/geocode/json"
+    param = "address=#{URI.encode(formatted_address)}"
+
+    path = [map_api_path, param].join("?")
+    path_uri = URI.parse(path)
+
+    http = Net::HTTP.new(path_uri.host, path_uri.port)
+    response = http.request(Net::HTTP::Get.new(path_uri.request_uri))
+
+    if save_to_file
+      filename = "#{formatted_address.gsub(' ', '_')}".gsub(',', '-')
+      self.save_to_json("./results", filename, response.body)
+    end
+
+    response.body
+  end
+
+  def self.save_to_json path, filename, content=""
+    file = File.join(path, "#{filename}.json")
+    unless File.exists?(file)
+      begin
+        f = File.new(file, 'w')
+        f.write(content)
+        f.close
+      rescue Exception => e
+        puts "Failed to write '#{file.to_s}', #{e.message}"
+      end
+    else
+      begin
+        f = File.open(file, 'w')
+        f.write(content)
+        f.close
+      rescue Exception => e
+        puts "Failed to overwrite '#{file.to_s}', #{e.message}"
+      end
     end
   end
 

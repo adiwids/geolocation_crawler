@@ -160,4 +160,27 @@ RSpec.describe Node do
       it "should create a record"
     end
   end
+
+  describe ".fetch_geocoder_result" do
+    before do
+      @mock_response = {
+        results: [
+            {
+              address_components: [],
+              formatted_address: "",
+              geometry: {},
+              place_id: "",
+              types: []
+            }
+          ],
+        status: "OK"
+      }
+      allow(Node).to receive(:fetch_geocoder_result).and_return(@mock_response.to_json)
+    end
+
+    it "should get geocoder results" do
+      r = Node.fetch_geocoder_result("Jalan Cassa, Sukajadi, Bandung, Bandung City, West Java, Indonesia", true)
+      expect(r).to eq(@mock_response.to_json)
+    end
+  end
 end
